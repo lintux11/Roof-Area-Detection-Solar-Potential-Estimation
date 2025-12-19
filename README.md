@@ -1,72 +1,73 @@
-# Roof-Area-Detection-Solar-Potential-Estimation
-This project detects usable rooftop areas from satellite images using computer vision and machine learning. A CNN based segmentation model identifies roof surfaces and filters non usable regions. The extracted area is combined with solar irradiance data to estimate solar energy potential and support informed solar panel planning.
+# React + TypeScript + Vite
 
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-# AI-Powered Roof Area Detection System
+Currently, two official plugins are available:
 
-A production-ready full-stack application to detect roof areas from satellite/drone images, calculate usable solar area, and estimate solar panel capacity using Deep Learning.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Features
+## React Compiler
 
-- **AI Segmentation**: Uses PyTorch DeepLabV3 (ResNet50) to detect roof areas.
-- **Solar Estimation**: Calculates usable area and potential solar panel capacity.
-- **Interactive UI**: React + TailwindCSS frontend with mask overlay and opacity controls.
-- **Robust Backend**: FastAPI with PostgreSQL storage and async SQLAlchemy.
-- **Dockerized**: Complete stack containerized with Docker Compose.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Tech Stack
+## Expanding the ESLint configuration
 
-- **Backend**: Python, FastAPI, PyTorch, OpenCV, SQLAlchemy, PostgreSQL
-- **Frontend**: TypeScript, React, Vite, TailwindCSS
-- **Deployment**: Docker, Docker Compose, Nginx
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Getting Started
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-### Prerequisites
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-- Docker and Docker Compose installed.
-
-### Running the Application
-
-1. **Clone the repository** (if not already done).
-2. **Start the stack**:
-   ```bash
-   docker-compose up --build
-   ```
-3. **Access the application**:
-   - Frontend: [http://localhost:3000](http://localhost:3000)
-   - Backend API Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
-
-### Development Setup
-
-#### Backend
-```bash
-cd app/backend
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-#### Frontend
-```bash
-cd app/frontend
-npm install
-npm run dev
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-## API Endpoints
-
-- `POST /api/v1/analysis/upload`: Upload image.
-- `POST /api/v1/analysis/segment`: Run segmentation.
-- `POST /api/v1/analysis/calculate`: Calculate areas.
-- `POST /api/v1/analysis/panel-estimation`: Estimate panels.
-- `GET /api/v1/analysis/{id}`: Get report details.
-
-## Project Structure
-
-- `/app/backend`: FastAPI application code.
-- `/app/frontend`: React application code.
-- `/app/data`: Storage for uploaded images and generated masks.
-- `/app/models`: Directory for model weights (auto-downloaded).
-

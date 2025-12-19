@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+python-multipart
+sqlalchemy
+opencv-python-headless
+numpy
+torch
+torchvision
+Pillow
+python-dotenv
+pydantic
+pydantic-settings
+aiofiles
+aiosqlite
